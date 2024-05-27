@@ -11,11 +11,11 @@ class UserController {
     async registration(req, res, next) {
         const {first_name, last_name, patronymic, email, phone_number, password, role} = req.body
         if (!first_name || !last_name || !patronymic || !email || !phone_number || !password) {
-            return next(ApiError.badRequest('Incorrect email or password'))
+            return next(ApiError.badRequest('Заповніть поля'))
         }
         const candidate = await Consumer.findOne({where: {email}})
         if (candidate) {
-            return next(ApiError.badRequest('Write another email'))
+            return next(ApiError.badRequest('Користувач із таким e-mail уже існує'))
         }
         const hashPassword = await bcrypt.hash(password, 5)
         const consumer = await Consumer.create({first_name, last_name, patronymic, email, phone_number, password: hashPassword, role})
@@ -27,11 +27,11 @@ class UserController {
         const {email, password} = req.body
         const consumer = await Consumer.findOne({where: {email}})
         if (!consumer) {
-            return next(ApiError.internal('User don`t found'))
+            return next(ApiError.internal('Користувач із таким e-mail не зареєстрований'))
         }
         let comparePassword = bcrypt.compareSync(password, consumer.password)
         if(!comparePassword) {
-            return next(ApiError.internal('Incorrect password'))
+            return next(ApiError.internal('Неправильний пароль'))
         }
         const token = generateJwt(consumer.id, consumer.first_name, consumer.last_name, consumer.patronymic, consumer.email, consumer.phone_number, consumer.role)
         return res.json({token})

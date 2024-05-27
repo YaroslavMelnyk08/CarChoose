@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import '../styles/FilterBar.css'
 
 const CarSelection = observer(() => {
     const { ad } = useContext(Context);
@@ -29,32 +29,39 @@ const CarSelection = observer(() => {
     return (
         <div>
             <h4>Марки Авто</h4>
-                <DropdownButton id="dropdown-make" title={ad.selectedMake || "Виберіть марку"}>
-                    <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                        {uniqueMakes.map((make, index) => (
-                            <Dropdown.Item 
-                                key={index} 
-                                onClick={() => handleMakeClick(make)}
-                            >
-                                {make}
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </DropdownButton>
+            <Dropdown className='mt-2 dropDown'>
+                <Dropdown.Toggle className=''>
+                    {ad.selectedMake || "Виберіть марку"}
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                    {uniqueMakes.map((make, index) => (
+                        <Dropdown.Item 
+                            key={index} 
+                            onClick={() => handleMakeClick(make)}
 
-                <h4 className="mt-3">Моделі Авто</h4>
-                <DropdownButton id="dropdown-model" title={ad.selectedModel || "Виберіть модель"}>
-                    <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                        {uniqueModels.map((model, index) => (
-                            <Dropdown.Item 
-                                key={index}
-                                onClick={() => handleModelClick(model)}
-                            >
-                                {model}
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </DropdownButton>
+                        >
+                            {make}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+
+            <h4 className="mt-3">Моделі Авто</h4>
+            <Dropdown className='mt-2 dropDown'>
+                <Dropdown.Toggle>
+                    {ad.selectedModel || "Виберіть модель"}
+                </Dropdown.Toggle>
+                <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                    {uniqueModels.map((model, index) => (
+                        <Dropdown.Item 
+                            key={index}
+                            onClick={() => handleModelClick(model)}
+                        >
+                            {model}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
         </div>
     );
 });

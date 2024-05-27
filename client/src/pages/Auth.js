@@ -9,6 +9,7 @@ import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { login, registration } from '../http/userAPI';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
+import '../styles/Auth.css'
 
 const Auth = observer(() => {
     const {user} = useContext(Context)
@@ -43,9 +44,9 @@ const Auth = observer(() => {
     return (
         <Container 
             className="d-flex justify-content-center align-items-center"
-            style={{height: window.innerHeight - 54}}
+            style={{height: window.innerHeight - 154}}
         >
-            <Card style={{width: 600}} className="p-5">
+            <Card style={{width: 600}} className="authCard p-5">
                 <h2 className="m-auto">{isLogin ? "Авторизація" : "Реєстрація"}</h2>
                 <Form className="d-flex flex-column">
                     {isLogin ? 
@@ -105,17 +106,19 @@ const Auth = observer(() => {
                             />
                         </div>
                     }
-                    <Row className='d-flex justify-content-between mt-3'>
+                    <Row className='d-flex justify-content-center mt-3'>
                         <Button 
-                            className='align-self-end'
+                            className='align-self-end md-3 btnAuth'
                             onClick={click}
                         >
-                            {isLogin ? 'Log in' : 'Sign up'}
+                            {isLogin ? 'Авторизуватися' : 'Зареєструватися'}
                         </Button>
-                        {isLogin ?
-                        <div>Don't have account <NavLink to={REGISTRATION_ROUTE}>Sign UP</NavLink></div>
-                        : <div>Have account <NavLink to={LOGIN_ROUTE}>Log IN</NavLink></div>
-                        }
+                        <div className='underTitleBtn mt-3'>
+                            {isLogin ?
+                            <div>Не маєте акаунту? <NavLink className="navLinkAuth" to={REGISTRATION_ROUTE}> Зареєструйтеся</NavLink></div>
+                            : <div>Маєте акаунт?<NavLink className="navLinkAuth" to={LOGIN_ROUTE}> Авторизуйтеся</NavLink></div>
+                            }
+                        </div>
                     </Row>
                 </Form>
             </Card>

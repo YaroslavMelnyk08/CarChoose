@@ -20,8 +20,6 @@ class AdController {
         }
     }
 
-
-    // 50 хв
     async getAll(req, res) {
         let {
             CarId,

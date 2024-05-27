@@ -8,11 +8,11 @@ const AdList = observer(() => {
     const { ad } = useContext(Context);
 
     if (!ad.ads) {
-        return <div>Завантаження оголошень</div>;
+        return <div><h4>Завантаження оголошень</h4></div>;
     }
 
     if (ad.ads.length === 0) {
-        return <div>Оголошень не знайдено</div>;
+        return <div><h4>Оголошень не знайдено</h4></div>;
     }
 
     return (

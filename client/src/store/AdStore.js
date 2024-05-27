@@ -21,6 +21,8 @@ export default class AdStore {
         this._totalCount = 0
         this._limit = 12
 
+        this._favorites = [];
+
         makeAutoObservable(this)
     }
 
@@ -156,4 +158,18 @@ export default class AdStore {
     get models() {
         return this._cars.filter(car => car.make === this._selectedMake);
     }
+
+    // favourites
+    addToFavorites(ad) {
+        this._favorites.push(ad);
+    }
+
+    removeFromFavorites(adId) {
+        this._favorites = this._favorites.filter(ad => ad.id !== adId);
+    }
+
+    isFavorite(adId) {
+        return this._favorites.some(ad => ad.id === adId);
+    }
+
 }

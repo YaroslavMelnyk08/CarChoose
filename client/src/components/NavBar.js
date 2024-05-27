@@ -3,10 +3,12 @@ import { Context } from '..';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE } from '../utils/consts';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, CREATE_AD_ROUTE, CREATE_CAR_ROUTE } from '../utils/consts';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { observer } from "mobx-react-lite";
+import '../styles/NavBar.css'
+import '../styles/App.css'
 
 const NavBar = observer(() => {
     const { user } = useContext(Context);
@@ -18,17 +20,21 @@ const NavBar = observer(() => {
     }
 
     return (
-        <Navbar style={{ color: 'white' }} bg="light" data-bs-theme="light" className='mb-2'>
-            <Container>
-                <NavLink to={MAIN_ROUTE}>CarChoose</NavLink>
+        <Navbar className='NavBar mb-5'>
+            <Container className='Container'>
+                <Button className='NavButton NavButton-title'onClick={() => navigate(MAIN_ROUTE)} >CarChoose</Button>
                 {user.isAuth ?
                     <Nav className="ml-auto">
-                        <Button onClick={() => navigate(ADMIN_ROUTE)}>Адмін панель</Button>
-                        <Button onClick={() => logOut()} className="ms-2">Вийти</Button>
+                        <Button className='NavButton' onClick={() => navigate(CREATE_CAR_ROUTE)}>Додати автомобіль</Button>
+                        <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Адмін панель</Button>
+                        <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
+                        <Button className='NavButton ms-2' onClick={() => logOut()}
+                        >Вийти</Button>
                     </Nav>
                     :
                     <Nav className="ml-auto">
-                        <Button onClick={() => navigate(LOGIN_ROUTE)}>Авторизуватися</Button>
+                        <Button className='NavButton' onClick={() => navigate(LOGIN_ROUTE)}>Продати авто</Button>
+                        <Button className='NavButton' onClick={() => navigate(LOGIN_ROUTE)}>Авторизуватися</Button>
                     </Nav>
                 }
             </Container>

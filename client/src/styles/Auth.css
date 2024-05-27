@@ -1,0 +1,32 @@
+.authCard {
+    border: 4px solid rgb(101, 143, 215);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 120%;
+}
+
+.btnAuth {
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    background-color: rgba(101, 143, 215);
+    border: none;
+}
+
+.btnAuth:hover {
+    background-color: #0d6efd;
+    border: none;
+}
+
+.underTitleBtn {
+    text-align: center;
+}
+
+.navLinkAuth {
+    font-weight: 700;
+    text-decoration: none;
+    color: rgb(101, 143, 215);
+}
+
+.navLinkAuth:hover {
+    color: #0d6efd;
+}

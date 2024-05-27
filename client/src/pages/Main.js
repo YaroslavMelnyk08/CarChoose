@@ -36,7 +36,7 @@ const Main = observer(() => {
     }, [ad.selectedCar, ad.selectedPaintCondition, ad.selectedColor, ad.selectedAccident, ad.selectedDrivenFrom, ad.page]);
 
     return (
-        <Container>
+        <Container className='Container'>
             <Row>
                 <Col md={3}>
                     <FilterBar />

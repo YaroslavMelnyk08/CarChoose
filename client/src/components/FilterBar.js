@@ -4,7 +4,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { Context } from '..';
 import CarSelectionForm from './CarSelection';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Button from 'react-bootstrap/Button'; // Додайте імпорт кнопки
+import Button from 'react-bootstrap/Button';
+import '../styles/FilterBar.css'
 
 const FilterBar = observer(() => {
     const { ad } = useContext(Context);
@@ -13,21 +14,24 @@ const FilterBar = observer(() => {
         ad.setPage(1);
     };
 
-    const handleReset = () => { // Створіть функцію для скидання даних
+    const handleReset = () => {
+        ad.setSelectedMake(null);
+        ad.setSelectedModel(null);
+        ad.setSelectedCar(null)
         ad.setSelectedPaintCondition(null);
         ad.setSelectedColor(null);
         ad.setSelectedAccident(null);
         ad.setSelectedDrivenFrom(null);
-        handleFilterChange(); // Додайте оновлення сторінки, якщо потрібно
+        handleFilterChange();
     };
 
     return (
         <div>
-            <ListGroup>
+            <ListGroup className='listGroupItem'>
                 <CarSelectionForm></CarSelectionForm>
             </ListGroup>
-            <ListGroup>
-                <h4 className="mt-3">Оберіть стан ЛКП</h4>
+            <ListGroup className='listGroupItem mt-3'>
+                <h4>Оберіть стан ЛФП</h4>
                 {ad.paintConditions.map(paintCondition => 
                     <ListGroup.Item
                         style={{cursor: 'pointer'}}
@@ -38,20 +42,22 @@ const FilterBar = observer(() => {
                         }}
                         key={paintCondition.id}
                     >
-                        {paintCondition.paint_condition_name}
-                        <div className='mt-2'>
-                            {paintCondition.paint_condition_description}
+                        <div className='listGroupItemTitle'>
+                            {paintCondition.paint_condition_name}
+                        </div>
+                        <div className='mt-1'>
+                            Опис: {paintCondition.paint_condition_description}
                         </div>    
                     </ListGroup.Item>
                 )}
             </ListGroup>
-            <ListGroup>
-                <h4 className="mt-3">Оберіть колір</h4>
-                <Dropdown className='mt-3'>
+            <ListGroup className='listGroupItem mt-3'>
+                <h4>Оберіть колір</h4>
+                <Dropdown className='mt-1 dropDown'>
                     <Dropdown.Toggle>
                         {ad.selectedColor?.color_name || "Оберіть колір авто"}
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
                         {ad.colors.map(color =>
                             <Dropdown.Item onClick={() => {
                                 ad.setSelectedColor(color);
@@ -61,8 +67,8 @@ const FilterBar = observer(() => {
                     </Dropdown.Menu>
                 </Dropdown>
             </ListGroup>
-            <ListGroup>
-                <h4 className="mt-3">Участь у ДТП</h4>
+            <ListGroup className='listGroupItem mt-3'>
+                <h4>Участь у ДТП</h4>
                 {ad.accidents.map(accident => 
                     <ListGroup.Item
                         style={{cursor: 'pointer'}}
@@ -77,13 +83,13 @@ const FilterBar = observer(() => {
                     </ListGroup.Item>
                 )}
             </ListGroup>
-            <ListGroup>
-                <h4 className="mt-3">Куплений в / Пригнаний з</h4>
-                <Dropdown className='mt-3'>
-                    <Dropdown.Toggle>
+            <ListGroup className='listGroupItem mt-3'>
+                <h4>Куплений в / Пригнаний з</h4>
+                <Dropdown className='mt-1  dropDown'>
+                    <Dropdown.Toggle className='dropDownStyle'>
                         {ad.selectedDrivenFrom?.country_name || "Пригнаний з"}                       
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
                         {ad.drivenFrom.map(drivenFrom =>
                             <Dropdown.Item onClick={() => {
                                 ad.setSelectedDrivenFrom(drivenFrom);
@@ -93,7 +99,7 @@ const FilterBar = observer(() => {
                     </Dropdown.Menu>
                 </Dropdown>
             </ListGroup>
-            <Button variant="secondary" onClick={handleReset}>Скинути</Button> {/* Додайте кнопку скидання */}
+            <Button className='filterBarBtn mt-3' onClick={handleReset}>Скинути</Button>
         </div>    
     );
 });
