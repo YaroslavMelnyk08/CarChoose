@@ -1,0 +1,15 @@
+.pageBar {
+    justify-content: center;
+}
+
+.pageItem a {
+    font-size: 130%;
+    color: #658fd7;
+    
+}
+
+.pageItem.active span {
+    border-color: #658fd7;
+    background-color: #658fd7;
+    font-size: 130%;
+}

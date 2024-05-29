@@ -32,7 +32,7 @@ class AdController {
         } = req.query;
     
         page = page || 1;
-        limit = limit || 16;
+        limit = limit || 2;
         let offset = page * limit - limit;
     
         let whereClause = {};

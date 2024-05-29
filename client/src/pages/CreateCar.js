@@ -74,7 +74,7 @@ const CreateCar = () => {
     };
 
     return (
-        <Container>
+        <Container className='Container'>
             <h2>Додати Авто</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formMake">

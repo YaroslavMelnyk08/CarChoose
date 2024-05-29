@@ -6,7 +6,6 @@ import { Provider } from 'mobx-react';
 import FilterBar from '../FilterBar';
 import { Context } from '..';
 
-// Мокові дані для контексту
 const mockAdStore = {
     paintConditions: [
         { id: 1, paint_condition_name: 'Good', paint_condition_description: 'Good condition' },
