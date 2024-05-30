@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import Card from 'react-bootstrap/esm/Card';
-import Col from 'react-bootstrap/esm/Col';
-import Container from 'react-bootstrap/esm/Container';
-import Image from 'react-bootstrap/esm/Image';
-import Row from 'react-bootstrap/esm/Row';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
 import { useParams } from 'react-router-dom';
 import { fetchOneAd } from '../http/adAPI';
 import '../styles/AdStyles.css';
@@ -35,12 +35,16 @@ const AdPage = () => {
                             <Card.Text>
                                 <strong>Опис:</strong> {ad.description}
                             </Card.Text>
-                            <Card.Text>
-                                <strong>Продавець:</strong> {ad.last_name} {ad.first_name}
-                            </Card.Text>
-                            <Card.Text>
-                                <strong>Номер телефону:</strong> {ad.phone_number} {ad.first_name}
-                            </Card.Text>
+                            {ad.Consumer && (
+                                <>
+                                    <Card.Text>
+                                        <strong>Продавець:</strong> {ad.Consumer.last_name} {ad.Consumer.first_name}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <strong>Номер телефону:</strong> {ad.Consumer.phone_number}
+                                    </Card.Text>
+                                </>
+                            )}
                         </Card.Body>
                     </Card>
                 </Col>
@@ -52,4 +56,4 @@ const AdPage = () => {
     );
 };
 
-export default observer(AdPage);
+export default AdPage;

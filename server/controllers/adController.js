@@ -1,7 +1,4 @@
-const uuid = require('uuid')
-const path = require('path')
-const {Ad} = require('../models/models')
-const ApiError = require('../error/ApiError')
+const { Ad, Consumer } = require('../models/models'); // Додано Consumer
 
 class AdController {
     async create(req, res, next) {
@@ -21,46 +18,40 @@ class AdController {
     }
 
     async getAll(req, res) {
-        let {
-            CarId,
-            PaintConditionId,
-            ColorId,
-            AccidentId,
-            DrivenFromId,
-            limit,
-            page
-        } = req.query;
-    
+        let { CarId, PaintConditionId, ColorId, AccidentId, DrivenFromId, limit, page } = req.query;
+
         page = page || 1;
         limit = limit || 2;
         let offset = page * limit - limit;
-    
+
         let whereClause = {};
-    
+
         if (CarId) whereClause.CarId = CarId;
         if (PaintConditionId) whereClause.PaintConditionId = PaintConditionId;
         if (ColorId) whereClause.ColorId = ColorId;
         if (AccidentId) whereClause.AccidentId = AccidentId;
         if (DrivenFromId) whereClause.DrivenFromId = DrivenFromId;
-    
+
         let ads = await Ad.findAndCountAll({
             where: whereClause,
             limit,
             offset
         });
-    
+
         return res.json(ads);
     }
-    
 
     async getOne(req, res) {
-        const {id} = req.params
-        const ad = await Ad.findOne(
-            {where: {id}}
-        )
+        const { id } = req.params;
+        const ad = await Ad.findOne({
+            where: { id },
+            include: [
+                { model: Consumer, attributes: ['first_name', 'last_name', 'phone_number'] } // Додано об'єднання з Consumer
+            ]
+        });
 
-        return res.json(ad)
+        return res.json(ad);
     }
 }
 
-module.exports = new AdController()
+module.exports = new AdController();

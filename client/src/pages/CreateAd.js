@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import { Context } from '..';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchAccidents, fetchCars, fetchColors, fetchDrivenFrom, fetchPaintConditions, createNewAd } from '../http/adAPI';
-import { Button, DropdownButton } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 
 const CreateAd = observer(() => {
