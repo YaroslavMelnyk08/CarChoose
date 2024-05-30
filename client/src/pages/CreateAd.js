@@ -137,7 +137,7 @@ const CreateAd = observer(() => {
                     onChange={e => setYearOfManufacture(e.target.value)}
                     placeholder='Рік виготовлення'
                 />
-                <h4 className="mt-3">Введіть ціну авто</h4>
+                <h4 className="mt-3">Введіть ціну авто в USD</h4>
                 <Form.Control
                     className='mt-3'
                     value={price}
