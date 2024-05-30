@@ -25,9 +25,15 @@ const NavBar = observer(() => {
                 <NavLink className='NavLink NavButton-title' to={MAIN_ROUTE}>CarChoose</NavLink>
                 {user.isAuth ?
                     <Nav className="ml-auto">
-                        <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Додати оголошення</Button>
-                        <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Обране</Button>
-                        <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
+                        {user.isAdmin ?
+                            <Button className='NavButton' onClick={() => navigate(CREATE_CAR_ROUTE)}>Додати авто</Button>
+                            :
+                            <div>
+                                <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Додати оголошення</Button>
+                            <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Обране</Button>
+                            <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
+                            </div>
+                        }
                         <Button className='NavButton ms-2' onClick={() => logOut()}
                         >Вийти</Button>
                     </Nav>

@@ -1,4 +1,5 @@
 const { Ad, Consumer } = require('../models/models'); // Додано Consumer
+const ApiError = require('../error/ApiError')
 
 class AdController {
     async create(req, res, next) {

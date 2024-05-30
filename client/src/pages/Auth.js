@@ -35,6 +35,9 @@ const Auth = observer(() => {
             user.setIsAuth(true)
             user.setUserId(data.id) 
             console.log('User ID:', data.id);
+            if (data.role === "ADMIN"){
+                user.setIsAdmin(true)
+            }
             navigate(MAIN_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
