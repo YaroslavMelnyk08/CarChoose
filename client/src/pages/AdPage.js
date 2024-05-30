@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/esm/Col';
 import Container from 'react-bootstrap/esm/Container';
 import Image from 'react-bootstrap/esm/Image';
 import Row from 'react-bootstrap/esm/Row';
-import { Context } from '..';
 import { useParams } from 'react-router-dom';
 import { fetchOneAd } from '../http/adAPI';
 import '../styles/AdStyles.css';
@@ -13,7 +12,6 @@ import '../styles/AdStyles.css';
 const AdPage = () => {
     const [ad, setAd] = useState({});
     const { id } = useParams();
-    const { adStore } = useContext(Context);
 
     useEffect(() => {
         fetchOneAd(id).then(data => setAd(data));
@@ -21,7 +19,7 @@ const AdPage = () => {
 
     return (
         <Container className='Container'>
-            <Row>
+            <Row className='titleAdContainer'>
                 <h1 className='titleAd'>{ad.title} {ad.year_of_manufacture}</h1>
             </Row>
             <Row className='mt-4'>

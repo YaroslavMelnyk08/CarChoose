@@ -11,6 +11,10 @@
     transition: color 0.3s, font-size 0.3s; /* плавна зміна кольору та розміру тексту протягом 0.3 секунд */
 }
 
+.NavButton-title:hover {
+    border-radius: 80%;
+}
+
 .NavBar a:hover {
     background-color: rgba(255, 255, 255, 0.1); 
 }
@@ -23,5 +27,9 @@
 }
 
 .NavBar .NavButton:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* зміна кольору фону при наведенні курсору */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navContainer {
+    padding: .5% 0;
 }

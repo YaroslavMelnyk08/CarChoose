@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, CREATE_AD_ROUTE, CREATE_CAR_ROUTE } from '../utils/consts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { observer } from "mobx-react-lite";
 import '../styles/NavBar.css'
@@ -21,12 +21,12 @@ const NavBar = observer(() => {
 
     return (
         <Navbar className='NavBar mb-5'>
-            <Container className='Container'>
-                <Button className='NavButton NavButton-title'onClick={() => navigate(MAIN_ROUTE)} >CarChoose</Button>
+            <Container className='Container navContainer'>
+                <NavLink className='NavLink NavButton-title' to={MAIN_ROUTE}>CarChoose</NavLink>
                 {user.isAuth ?
                     <Nav className="ml-auto">
                         <Button className='NavButton' onClick={() => navigate(CREATE_CAR_ROUTE)}>Додати автомобіль</Button>
-                        <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Адмін панель</Button>
+                        <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Адмін панель</Button>
                         <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
                         <Button className='NavButton ms-2' onClick={() => logOut()}
                         >Вийти</Button>
