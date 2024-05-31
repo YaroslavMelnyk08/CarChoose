@@ -16,6 +16,11 @@ const AdItem = ({ ad }) => {
         // Тут можна додати логіку для збереження цього статусу на бекенді або в контексті
     };
 
+    // Перевіряємо наявність фотографій і вибираємо перше фото або ставимо дефолтне зображення
+    const mainPhoto = ad.AdPhotos && ad.AdPhotos.length > 0 
+        ? `${process.env.REACT_APP_API_URL}/${ad.AdPhotos[0].file_name}`
+        : 'path/to/default/image.jpg';
+
     return (
         <Col md={6} className="mb-4">
             <Card
@@ -24,7 +29,7 @@ const AdItem = ({ ad }) => {
                 className='itemCard'
             >
                 <div className="image-container">
-                    <Image className="ad-image" src={process.env.REACT_APP_API_URL + ad.photo} />
+                    <Image className="ad-image" src={mainPhoto} />
                 </div>
                 <Card.Body>
                     <div className="d-flex justify-content-between align-items-center">

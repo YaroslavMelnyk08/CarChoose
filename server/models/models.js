@@ -58,10 +58,15 @@ const Ad = sequelize.define('Ad', {
   id: {type: DataTypes.INTEGER,primaryKey: true, autoIncrement: true},
   title: {type: DataTypes.STRING(1000),allowNull: false,},
   description: {type: DataTypes.STRING(1000),allowNull: false,},
-  photo: {type: DataTypes.STRING,allowNull: false,},
   year_of_manufacture: {type: DataTypes.STRING,allowNull: false,},
   mileage: {type: DataTypes.INTEGER,allowNull: false,},
   price: {type: DataTypes.INTEGER,allowNull: false,}
+}, { timestamps: false });
+
+const AdPhoto = sequelize.define('AdPhoto', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  file_name: { type: DataTypes.STRING, allowNull: false },
+  AdId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'Ads', key: 'id' } }
 }, { timestamps: false });
 
 Consumer.hasMany(Ad);
@@ -82,4 +87,7 @@ Ad.belongsTo(Accident);
 DrivenFrom.hasMany(Ad);
 Ad.belongsTo(DrivenFrom);
 
-module.exports = {Consumer,PaintCondition,Car,Color,Accident,DrivenFrom,Ad};
+Ad.hasMany(AdPhoto, { foreignKey: 'AdId', onDelete: 'CASCADE' });
+AdPhoto.belongsTo(Ad, { foreignKey: 'AdId' });
+
+module.exports = {Consumer, PaintCondition, Car, Color, Accident, DrivenFrom, Ad, AdPhoto};

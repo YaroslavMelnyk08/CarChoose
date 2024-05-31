@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react-lite';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import { useParams } from 'react-router-dom';
 import { fetchOneAd } from '../http/adAPI';
 import '../styles/AdStyles.css';
+import Carousel from 'react-bootstrap/Carousel';
 
 const AdPage = () => {
-    const [ad, setAd] = useState({});
+    const [ad, setAd] = useState({ AdPhotos: [] });
     const { id } = useParams();
 
     useEffect(() => {
-        fetchOneAd(id).then(data => setAd(data));
+        fetchOneAd(id).then(data => {
+            setAd(data);
+        });
     }, [id]);
+
+    if (!ad) {
+        return <div>Оголошення не знайдено</div>;
+    }
 
     return (
         <Container className='Container'>
@@ -29,7 +34,7 @@ const AdPage = () => {
             </Row>
             <Row className='mt-4'>
                 <Col>
-                    <Card className='adCardOptions mb-3' style={{ width: '80%', height: 'auto' }}>
+                    <Card className='adCardOptions mb-3 adFontSize' style={{ width: '80%', height: 'auto' }}>
                         <Card.Body>
                             <Card.Text>
                                 <strong>Ціна:</strong> {ad.price} USD
@@ -42,7 +47,7 @@ const AdPage = () => {
                             </Card.Text>
                         </Card.Body>
                     </Card>
-                    <Card className='adCardOptions mb-3' style={{ width: '80%', height: 'auto' }}>
+                    <Card className='adCardOptions mb-3 adFontSize' style={{ width: '80%', height: 'auto' }}>
                         <Card.Body>
                             <h3>Продавець</h3>
                             {ad.Consumer && (
@@ -57,7 +62,7 @@ const AdPage = () => {
                             )}
                         </Card.Body>
                     </Card>
-                    <Card className='adCardOptions' style={{ width: '80%', height: 'auto' }}>
+                    <Card className='adCardOptions adFontSize' style={{ width: '80%', height: 'auto' }}>
                         <Card.Body>
                             <h3> Характеристики авто </h3>
                             {ad.PaintCondition && ad.Color && ad.Accident && ad.DrivenFrom && ad.Car && (
@@ -81,7 +86,7 @@ const AdPage = () => {
                             )}
                         </Card.Body>
                     </Card>
-                    <Card className='adCardOptions mt-3' style={{ width: '80%', height: 'auto' }}>
+                    <Card className='adCardOptions mt-3 adFontSize' style={{ width: '80%', height: 'auto' }}>
                         <Card.Body>
                             <h3> Технічні характеристики авто </h3>
                             {ad.Car && (
@@ -101,7 +106,23 @@ const AdPage = () => {
                     </Card>
                 </Col>
                 <Col>
-                    <Image width="100%" src={process.env.REACT_APP_API_URL + ad.photo} />
+                    {ad.AdPhotos && ad.AdPhotos.length > 0 ? (
+                        <Carousel className='photoCarousel'>
+                            {ad.AdPhotos.map((photo, index) => (
+                                <Carousel.Item key={index}>
+                                    <img
+                                        style={{borderRadius: '3%'}}
+                                        className="d-block w-100 ad-image"
+                                        src={`${process.env.REACT_APP_API_URL}/${photo.file_name}`}
+                                        alt={`Фото ${index + 1}`}
+                                        onError={(e) => { e.target.src = '/default_image.jpg'; }}
+                                    />
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                    ) : (
+                        <div>Фото не знайдено</div>
+                    )}
                 </Col>
             </Row>
         </Container>

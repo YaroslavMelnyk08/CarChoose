@@ -9,3 +9,13 @@
 .titleAdContainer {
     margin: 0;
 }
+
+.adFontSize {
+    font-size: 120%;
+}
+
+.ad-image {
+    max-height: 500px;
+    object-fit: cover; /* Зображення обрізається по краях, якщо воно не пропорційне контейнеру */
+    object-position: center; /* Центрування зображення у контейнері */
+}

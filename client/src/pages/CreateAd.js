@@ -13,7 +13,8 @@ const CreateAd = observer(() => {
     const [yearOfManufacture, setYearOfManufacture] = useState('');
     const [mileage, setMileage] = useState(0);
     const [price, setPrice] = useState(0);
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
+    const [mainPhotoIndex, setMainPhotoIndex] = useState(null); // Індекс головного фото
 
     useEffect(() => {
         fetchCars().then(data => newAd.setCars(data));
@@ -23,11 +24,15 @@ const CreateAd = observer(() => {
         fetchDrivenFrom().then(data => newAd.setDrivenFrom(data));
     }, []);
 
-    const selectFile = e => {
-        setFile(e.target.files[0]);
+    const selectFiles = e => {
+        const selectedFiles = [...e.target.files];
+        setFiles(selectedFiles);
+        setMainPhotoIndex(null); // Скидаємо індекс головного фото при виборі нових файлів
     };
 
-    const uniqueMakes = [...new Set(newAd.cars.map(car => car.make))];
+    const handleMainPhotoChange = index => {
+        setMainPhotoIndex(index);
+    };
 
     const handleMakeClick = (make) => {
         newAd.setSelectedMake(make);
@@ -49,9 +54,11 @@ const CreateAd = observer(() => {
 
     const handleCarClick = (car) => {
         newAd.setSelectedCar(car);
-        console.log(car.id)
-        console.log(user.userId)
+        console.log(car.id);
+        console.log(user.userId);
     };
+
+    const uniqueMakes = [...new Set(newAd.cars.map(car => car.make))];
 
     const uniqueModels = newAd.selectedMake
         ? [...new Set(newAd.cars.filter(car => car.make === newAd.selectedMake).map(car => car.model))]
@@ -66,14 +73,19 @@ const CreateAd = observer(() => {
         : [];
 
     const addAd = () => {
-        if (!newAd.selectedMake || !newAd.selectedModel || !newAd.selectedGeneration || !newAd.selectedCar || !description || !yearOfManufacture || !mileage || !price || !newAd.selectedPaintCondition || !newAd.selectedColor || !newAd.selectedAccident || !newAd.selectedDrivenFrom || !file) {
+        if (!newAd.selectedMake || !newAd.selectedModel || !newAd.selectedGeneration || !newAd.selectedCar || !description || !yearOfManufacture || !mileage || !price || !newAd.selectedPaintCondition || !newAd.selectedColor || !newAd.selectedAccident || !newAd.selectedDrivenFrom || files.length === 0) {
             alert('Будь ласка, заповніть всі поля');
             return;
         }
 
         const formData = new FormData();
         try {
-            console.log(newAd.selectedCar.id)
+            if (mainPhotoIndex !== null) {
+                const mainPhoto = files[mainPhotoIndex];
+                files.splice(mainPhotoIndex, 1);
+                files.unshift(mainPhoto);
+            }
+
             formData.append('title', `${newAd.selectedMake} ${newAd.selectedModel}`);
             formData.append('description', description);
             formData.append('year_of_manufacture', yearOfManufacture);
@@ -85,18 +97,21 @@ const CreateAd = observer(() => {
             formData.append('ColorId', newAd.selectedColor.id);
             formData.append('AccidentId', newAd.selectedAccident.id);
             formData.append('DrivenFromId', newAd.selectedDrivenFrom.id);
-            formData.append('photo', file);
+            files.forEach((file, index) => {
+                formData.append('photos', file);
+            });
 
             createNewAd(formData).then(data => alert(`Оголошення про продаж ${newAd.selectedMake} ${newAd.selectedModel} створено`));
             setDescription('');
             setYearOfManufacture('');
             setMileage(0);
             setPrice(0);
-            setFile(null);
-        }  catch(e) {
+            setFiles([]);
+            setMainPhotoIndex(null);
+        } catch (e) {
             alert(e);
         }           
-    }
+    };
 
     return (
         <Container className='Container'>
@@ -210,10 +225,29 @@ const CreateAd = observer(() => {
                 <h4 className="mt-3">Оберіть фото авто</h4>
                 <Form.Control
                     className='mt-3'
-                    placeholder='Оберіть фото'
                     type='file'
-                    onChange={selectFile}
+                    multiple
+                    onChange={selectFiles}
                 />
+                {files.length > 0 && (
+                    <div className="mt-3">
+                        <h4 className="mt-3">Оберіть головне фото</h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                            {files.map((file, index) => (
+                                <div key={index} style={{ margin: '10px' }}>
+                                    <Form.Check
+                                        type="radio"
+                                        label={`Фото ${index + 1}`}
+                                        name="mainPhoto"
+                                        onChange={() => handleMainPhotoChange(index)}
+                                        checked={index === mainPhotoIndex}
+                                    />
+                                    <img src={URL.createObjectURL(file)} alt={`Фото ${index + 1}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
                 <h4 className="mt-3">Оберіть стан ЛФП</h4>
                 <Dropdown className='mt-3 dropDown'>
                     <Dropdown.Toggle>
