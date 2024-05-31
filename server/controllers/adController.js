@@ -1,5 +1,7 @@
-const { Ad, Consumer } = require('../models/models'); // Додано Consumer
+const { Ad, Consumer, PaintCondition, Color, Accident, DrivenFrom, Car } = require('../models/models');
 const ApiError = require('../error/ApiError')
+const uuid = require('uuid');
+const path = require('path');
 
 class AdController {
     async create(req, res, next) {
@@ -14,6 +16,7 @@ class AdController {
 
             return res.json(ad);
         } catch (e) {
+            console.log(e); 
             next(ApiError.badRequest(e.message));
         }
     }
@@ -47,7 +50,12 @@ class AdController {
         const ad = await Ad.findOne({
             where: { id },
             include: [
-                { model: Consumer, attributes: ['first_name', 'last_name', 'phone_number'] } // Додано об'єднання з Consumer
+                { model: Consumer, attributes: ['first_name', 'last_name', 'phone_number'] },
+                { model: PaintCondition, attributes: ['paint_condition_name', 'paint_condition_description'] },
+                { model: Color, attributes: ['color_name'] },
+                { model: Accident, attributes: ['accident_name'] },
+                { model: DrivenFrom, attributes: ['country_name'] },
+                { model: Car, attributes: ['generation', 'trim', 'engine_type', 'capacity_cm3', 'engine_hp', 'drive_wheels', 'transmission']}
             ]
         });
 

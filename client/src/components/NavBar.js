@@ -26,12 +26,15 @@ const NavBar = observer(() => {
                 {user.isAuth ?
                     <Nav className="ml-auto">
                         {user.isAdmin ?
-                            <Button className='NavButton' onClick={() => navigate(CREATE_CAR_ROUTE)}>Додати авто</Button>
+                            <div>
+                                <Button className='NavButton' onClick={() => navigate(CREATE_CAR_ROUTE)}>Додати авто</Button>
+                                <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Додати оголошення</Button>
+                            </div>
                             :
                             <div>
                                 <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Додати оголошення</Button>
-                            <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Обране</Button>
-                            <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
+                                <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Обране</Button>
+                                <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
                             </div>
                         }
                         <Button className='NavButton ms-2' onClick={() => logOut()}

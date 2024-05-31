@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import { Context } from '..';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchAccidents, fetchCars, fetchColors, fetchDrivenFrom, fetchPaintConditions, createNewAd } from '../http/adAPI';
 import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
+import { Context } from '..';
 
 const CreateAd = observer(() => {
     const { newAd, user } = useContext(Context);
@@ -32,28 +32,48 @@ const CreateAd = observer(() => {
     const handleMakeClick = (make) => {
         newAd.setSelectedMake(make);
         newAd.setSelectedModel('');
+        newAd.setSelectedGeneration('');
+        newAd.setSelectedCar('');
     };
 
     const handleModelClick = (model) => {
         newAd.setSelectedModel(model);
-        const selectedCar = newAd.cars.find(car => car.make === newAd.selectedMake && car.model === model);
-        newAd.setSelectedCar(selectedCar);
+        newAd.setSelectedGeneration('');
+        newAd.setSelectedCar('');
+    };
+
+    const handleGenerationClick = (generation) => {
+        newAd.setSelectedGeneration(generation);
+        newAd.setSelectedCar('');
+    };
+
+    const handleCarClick = (car) => {
+        newAd.setSelectedCar(car);
+        console.log(car.id)
         console.log(user.userId)
     };
 
     const uniqueModels = newAd.selectedMake
         ? [...new Set(newAd.cars.filter(car => car.make === newAd.selectedMake).map(car => car.model))]
-        : []
-    ;
+        : [];
+
+    const uniqueGenerations = newAd.selectedModel
+        ? [...new Set(newAd.cars.filter(car => car.make === newAd.selectedMake && car.model === newAd.selectedModel).map(car => car.generation))]
+        : [];
+
+    const filteredCars = newAd.selectedGeneration
+        ? newAd.cars.filter(car => car.make === newAd.selectedMake && car.model === newAd.selectedModel && car.generation === newAd.selectedGeneration)
+        : [];
 
     const addAd = () => {
-        if (!newAd.selectedMake || !newAd.selectedModel || !description || !yearOfManufacture || !mileage || !price || !newAd.selectedCar || !newAd.selectedPaintCondition || !newAd.selectedColor || !newAd.selectedAccident || !newAd.selectedDrivenFrom || !file) {
+        if (!newAd.selectedMake || !newAd.selectedModel || !newAd.selectedGeneration || !newAd.selectedCar || !description || !yearOfManufacture || !mileage || !price || !newAd.selectedPaintCondition || !newAd.selectedColor || !newAd.selectedAccident || !newAd.selectedDrivenFrom || !file) {
             alert('Будь ласка, заповніть всі поля');
             return;
         }
 
-        const formData = new FormData()
+        const formData = new FormData();
         try {
+            console.log(newAd.selectedCar.id)
             formData.append('title', `${newAd.selectedMake} ${newAd.selectedModel}`);
             formData.append('description', description);
             formData.append('year_of_manufacture', yearOfManufacture);
@@ -66,16 +86,16 @@ const CreateAd = observer(() => {
             formData.append('AccidentId', newAd.selectedAccident.id);
             formData.append('DrivenFromId', newAd.selectedDrivenFrom.id);
             formData.append('photo', file);
-            
-            createNewAd(formData).then(data => alert(`Оголошення про продаж ${newAd.selectedMake} ${newAd.selectedModel} створено`))
+
+            createNewAd(formData).then(data => alert(`Оголошення про продаж ${newAd.selectedMake} ${newAd.selectedModel} створено`));
             setDescription('');
             setYearOfManufacture('');
             setMileage(0);
             setPrice(0);
             setFile(null);
-        } catch(e) {
+        }  catch(e) {
             alert(e);
-        }   
+        }           
     }
 
     return (
@@ -83,7 +103,7 @@ const CreateAd = observer(() => {
             <Form>
                 <h4>Марки Авто</h4>
                 <Dropdown className='mt-2 dropDown'>
-                    <Dropdown.Toggle className=''>
+                    <Dropdown.Toggle>
                         {newAd.selectedMake || "Виберіть марку"}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
@@ -91,7 +111,6 @@ const CreateAd = observer(() => {
                             <Dropdown.Item 
                                 key={index} 
                                 onClick={() => handleMakeClick(make)}
-
                             >
                                 {make}
                             </Dropdown.Item>
@@ -113,8 +132,51 @@ const CreateAd = observer(() => {
                                 {model}
                             </Dropdown.Item>
                         ))}
-                </Dropdown.Menu>
-            </Dropdown>
+                    </Dropdown.Menu>
+                </Dropdown>
+
+                {newAd.selectedModel && (
+                    <>
+                        <h4 className="mt-3">Покоління</h4>
+                        <Dropdown className='mt-2 dropDown'>
+                            <Dropdown.Toggle>
+                                {newAd.selectedGeneration || "Виберіть покоління"}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                {uniqueGenerations.map((generation, index) => (
+                                    <Dropdown.Item 
+                                        key={index}
+                                        onClick={() => handleGenerationClick(generation)}
+                                    >
+                                        {generation}
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </>
+                )}
+
+                {newAd.selectedGeneration && (
+                    <>
+                        <h4 className="mt-3">Комплектація</h4>
+                        <Dropdown className='mt-2 dropDown'>
+                            <Dropdown.Toggle>
+                                {newAd.selectedCar ? `${newAd.selectedCar.trim} (${newAd.selectedCar.capacity_cm3}, ${newAd.selectedCar.drive_wheels}, ${newAd.selectedCar.transmission})` : "Виберіть комплектацію"}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                {filteredCars.map((car, index) => (
+                                    <Dropdown.Item 
+                                        key={index}
+                                        onClick={() => handleCarClick(car)}
+                                    >
+                                        {car.trim} (Коробка передач: {car.transmission}, Об'єм двигуна:{car.capacity_cm3}, Привід: {car.drive_wheels})
+                                    </Dropdown.Item>
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </>
+                )}
+
                 <h4 className="mt-3">Введіть опис авто</h4>
                 <Form.Control
                     className='mt-3'
@@ -154,7 +216,7 @@ const CreateAd = observer(() => {
                 />
                 <h4 className="mt-3">Оберіть стан ЛФП</h4>
                 <Dropdown className='mt-3 dropDown'>
-                    <Dropdown.Toggle className='dropDownStyle'>
+                    <Dropdown.Toggle>
                         {newAd.selectedPaintCondition?.paint_condition_name || "Оберіть стан ЛКП"}
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
@@ -176,16 +238,16 @@ const CreateAd = observer(() => {
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
                         {newAd.colors.map(color =>
-                            <Dropdown.Item onClick={() => {
-                                newAd.setSelectedColor(color);
-                            }} key={color.id}>{color.color_name}</Dropdown.Item>
+                            <Dropdown.Item onClick={() => newAd.setSelectedColor(color)} key={color.id}>
+                                {color.color_name}
+                            </Dropdown.Item>
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
                 <h4 className="mt-3">Участь в ДТП</h4>
                 <Dropdown className='mt-3 dropDown'>
                     <Dropdown.Toggle>
-                        {newAd.selectedAccident.accident_name || "Участь в ДТП"}
+                        {newAd.selectedAccident?.accident_name || "Участь в ДТП"}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {newAd.accidents.map(accident =>
@@ -196,15 +258,15 @@ const CreateAd = observer(() => {
                     </Dropdown.Menu>
                 </Dropdown>
                 <h4 className="mt-3">Куплений в / Пригнаний з</h4>
-                <Dropdown className='mt-1  dropDown'>
-                    <Dropdown.Toggle className='dropDownStyle'>
+                <Dropdown className='mt-1 dropDown'>
+                    <Dropdown.Toggle>
                         {newAd.selectedDrivenFrom?.country_name || "Пригнаний з"}                       
                     </Dropdown.Toggle>
                     <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
                         {newAd.drivenFrom.map(drivenFrom =>
-                            <Dropdown.Item onClick={() => {
-                                newAd.setSelectedDrivenFrom(drivenFrom);
-                            }} key={drivenFrom.id}>{drivenFrom.country_name}</Dropdown.Item>
+                            <Dropdown.Item onClick={() => newAd.setSelectedDrivenFrom(drivenFrom)} key={drivenFrom.id}>
+                                {drivenFrom.country_name}
+                            </Dropdown.Item>
                         )}
                     </Dropdown.Menu>
                 </Dropdown>

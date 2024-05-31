@@ -12,6 +12,7 @@ export default class CreateAdStore {
         this._selectedCar = null;
         this._selectedMake = '';
         this._selectedModel = '';
+        this._selectedGeneration = '';
         this._selectedPaintCondition = '';
         this._selectedColor = '';
         this._selectedAccident = '';
@@ -72,6 +73,10 @@ export default class CreateAdStore {
         this._selectedModel = model;
     }
 
+    setSelectedGeneration(generation) {
+        this._selectedGeneration = generation;
+    }
+
     get paintConditions() {
         return this._paintConditions;
     }
@@ -122,6 +127,10 @@ export default class CreateAdStore {
 
     get selectedModel() {
         return this._selectedModel;
+    }
+
+    get selectedGeneration() {
+        return this._selectedGeneration;
     }
 
     get models() {
