@@ -6,10 +6,10 @@ const path = require('path');
 class AdController {
     async create(req, res, next) {
         try {
-            const { title, description, year_of_manufacture, mileage, price, ConsumerId, CarId, PaintConditionId, ColorId, AccidentId, DrivenFromId } = req.body;
+            const { title, description, year_of_manufacture, mileage, price, make, model, ConsumerId, CarId, PaintConditionId, ColorId, AccidentId, DrivenFromId } = req.body;
             const { photos } = req.files;
 
-            let ad = await Ad.create({ title, description, year_of_manufacture, mileage, price, ConsumerId, CarId, PaintConditionId, ColorId, AccidentId, DrivenFromId });
+            let ad = await Ad.create({ title, description, year_of_manufacture, mileage, price, make, model, ConsumerId, CarId, PaintConditionId, ColorId, AccidentId, DrivenFromId });
 
             if (photos) {
                 if (Array.isArray(photos)) {

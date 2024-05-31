@@ -60,7 +60,9 @@ const Ad = sequelize.define('Ad', {
   description: {type: DataTypes.STRING(1000),allowNull: false,},
   year_of_manufacture: {type: DataTypes.STRING,allowNull: false,},
   mileage: {type: DataTypes.INTEGER,allowNull: false,},
-  price: {type: DataTypes.INTEGER,allowNull: false,}
+  price: {type: DataTypes.INTEGER,allowNull: false,},
+  make: {type: DataTypes.STRING},
+  model: {type: DataTypes.STRING}
 }, { timestamps: false });
 
 const AdPhoto = sequelize.define('AdPhoto', {

@@ -91,6 +91,8 @@ const CreateAd = observer(() => {
             formData.append('year_of_manufacture', yearOfManufacture);
             formData.append('mileage', `${mileage}`);
             formData.append('price', `${price}`);
+            formData.append('make', `${newAd.selectedMake}`);
+            formData.append('model', `${newAd.selectedModel}`);
             formData.append('ConsumerId', user.user.id); 
             formData.append('CarId', newAd.selectedCar.id);
             formData.append('PaintConditionId', newAd.selectedPaintCondition.id);
