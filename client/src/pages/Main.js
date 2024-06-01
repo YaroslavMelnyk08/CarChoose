@@ -27,13 +27,13 @@ const Main = observer(() => {
     }, [ad]);
 
     useEffect(() => {
-        fetchAds(ad.selectedCar?.id, ad.selectedPaintCondition?.id, ad.selectedColor?.id, ad.selectedAccident?.id, ad.selectedDrivenFrom?.id, ad.page, 4).then(data => {
+        fetchAds(ad.selectedMake, ad.selectedModel, ad.selectedPaintCondition?.id, ad.selectedColor?.id, ad.selectedAccident?.id, ad.selectedDrivenFrom?.id, ad.page, 4).then(data => {
             ad.setAds(data.rows);
             ad.setTotalCount(data.count);
         }).catch(error => {
             console.error("Error fetching ads on filter change:", error.message);
         });
-    }, [ad.selectedCar, ad.selectedPaintCondition, ad.selectedColor, ad.selectedAccident, ad.selectedDrivenFrom, ad.page]);
+    }, [ad.selectedMake, ad.selectedModel, ad.selectedPaintCondition, ad.selectedColor, ad.selectedAccident, ad.selectedDrivenFrom, ad.page]);
 
     return (
         <Container className='Container'>

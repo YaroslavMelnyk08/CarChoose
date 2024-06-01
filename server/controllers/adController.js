@@ -33,7 +33,7 @@ class AdController {
     }
 
     async getAll(req, res) {
-        let { CarId, PaintConditionId, ColorId, AccidentId, DrivenFromId, limit, page } = req.query;
+        let { make, model, PaintConditionId, ColorId, AccidentId, DrivenFromId, limit, page } = req.query;
 
         page = page || 1;
         limit = limit || 2;
@@ -41,7 +41,8 @@ class AdController {
 
         let whereClause = {};
 
-        if (CarId) whereClause.CarId = CarId;
+        if (make) whereClause.make = make;
+        if (model) whereClause.model = model;
         if (PaintConditionId) whereClause.PaintConditionId = PaintConditionId;
         if (ColorId) whereClause.ColorId = ColorId;
         if (AccidentId) whereClause.AccidentId = AccidentId;
@@ -52,7 +53,7 @@ class AdController {
                 where: whereClause,
                 limit,
                 offset,
-                include: [AdPhoto] // Додано для завантаження фото оголошень
+                include: [AdPhoto]
             });
 
             return res.json(ads);
@@ -60,7 +61,6 @@ class AdController {
             console.error("Error fetching ads:", error.message);
             return res.status(500).json({ error: "Error fetching ads" });
         }
-
     }
 
     async getOne(req, res) {

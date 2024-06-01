@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 import Dropdown from 'react-bootstrap/Dropdown';
-import '../styles/FilterBar.css'
+import '../styles/FilterBar.css';
 
 const CarSelection = observer(() => {
     const { ad } = useContext(Context);
@@ -17,20 +17,17 @@ const CarSelection = observer(() => {
 
     const handleModelClick = (model) => {
         ad.setSelectedModel(model);
-        const selectedCar = ad.cars.find(car => car.make === ad.selectedMake && car.model === model);
-        ad.setSelectedCar(selectedCar);
     };
 
     const uniqueModels = ad.selectedMake
         ? [...new Set(ad.cars.filter(car => car.make === ad.selectedMake).map(car => car.model))]
-        : []
-    ;
+        : [];
 
     return (
         <div>
             <h4>Марки Авто</h4>
             <Dropdown className='mt-2 dropDown'>
-                <Dropdown.Toggle className=''>
+                <Dropdown.Toggle>
                     {ad.selectedMake || "Виберіть марку"}
                 </Dropdown.Toggle>
                 <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
@@ -38,7 +35,6 @@ const CarSelection = observer(() => {
                         <Dropdown.Item 
                             key={index} 
                             onClick={() => handleMakeClick(make)}
-
                         >
                             {make}
                         </Dropdown.Item>
