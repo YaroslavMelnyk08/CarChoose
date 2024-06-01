@@ -46,3 +46,13 @@ export const fetchOneAd = async (id) => {
     const {data} = await $host.get('api/ad/' + id)
     return data
 }
+
+export const fetchAdsByConsumer = async (consumerId) => {
+    const { data } = await $authHost.get(`api/ad/consumer/${consumerId}`);
+    return data;
+}
+
+export const updateAd = async (id, ad) => {
+    const { data } = await $authHost.put(`api/ad/${id}`, ad);
+    return data;
+};

@@ -80,6 +80,34 @@ class AdController {
 
         return res.json(ad);
     }
+
+    async getAdsByConsumer(req, res) {
+        const { id } = req.params;
+        const ads = await Ad.findAll({ where: { ConsumerId: id }, include: [AdPhoto] });
+        return res.json(ads);
+    }
+
+    async update(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { title, description, year_of_manufacture, mileage, price, make, model } = req.body;
+    
+            const [updatedRowsCount] = await Ad.update(
+                { title, description, year_of_manufacture, mileage, price, make, model },
+                { where: { id } }
+            );
+    
+            if (updatedRowsCount === 0) {
+                return res.status(404).json({ error: `Ad with id ${id} not found` });
+            }
+
+            const updatedAd = await Ad.findByPk(id);
+    
+            return res.json(updatedAd);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
 }
 
 module.exports = new AdController();

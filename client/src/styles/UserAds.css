@@ -1,0 +1,10 @@
+.ads-grid {
+    display: flex;
+    flex-wrap: wrap; /* Розміщує оголошення в рядках по два */
+    justify-content: space-between; /* Рівномірно розподіляє простір між елементами у рядку */
+}
+
+.ad-item {
+    width: calc(50% - 10px); /* Ширина елемента - 50% екрану, мінус простір */
+    margin-bottom: 20px; /* Відступ між рядками */
+}
