@@ -4,19 +4,18 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import { useNavigate } from 'react-router-dom';
 import { AD_ROUTE } from '../utils/consts';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; // Імпорт іконок серця
-import '../styles/AdItem.css'; // Імпорт файлу стилів
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import '../styles/AdItem.css';
 
 const AdItem = ({ ad }) => {
     const navigate = useNavigate();
-    const [isFavorite, setIsFavorite] = useState(false); // Стейт для відстеження статусу обраного
+    const [isFavorite, setIsFavorite] = useState(false);
 
     const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
         // Тут можна додати логіку для збереження цього статусу на бекенді або в контексті
     };
 
-    // Перевіряємо наявність фотографій і вибираємо перше фото або ставимо дефолтне зображення
     const mainPhoto = ad.AdPhotos && ad.AdPhotos.length > 0 
         ? `${process.env.REACT_APP_API_URL}/${ad.AdPhotos[0].file_name}`
         : 'path/to/default/image.jpg';
