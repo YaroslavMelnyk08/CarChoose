@@ -18,3 +18,13 @@ export const check = async () => {
     localStorage.setItem('token', data.token)
     return jwtDecode(data.token)
 }
+
+export const fetchProfile = async () => {
+    const { data } = await $authHost.get('api/user/profile');
+    return data;
+};
+
+export const updateProfile = async (first_name, last_name, patronymic, email, phone_number, password) => {
+    const { data } = await $authHost.put('api/user/update', { first_name, last_name, patronymic, email, phone_number, password });
+    return data;
+};

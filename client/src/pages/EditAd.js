@@ -4,7 +4,7 @@ import { fetchOneAd, updateAd } from '../http/adAPI';
 import { Form, Button, Container } from 'react-bootstrap';
 import { USER_ADS } from '../utils/consts';
 
-const EditAd = () => {
+const EditAd = ({ userId }) => {
     const { id } = useParams();
     const [ad, setAd] = useState({});
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const EditAd = () => {
         e.preventDefault();
         try {
             await updateAd(id, ad);
-            navigate(USER_ADS);
+            navigate(`${USER_ADS}/${userId}`);
         } catch (error) {
             console.error("Error updating ad:", error.message);
         }

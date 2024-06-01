@@ -6,15 +6,19 @@ import { fetchAccidents, fetchCars, fetchColors, fetchDrivenFrom, fetchPaintCond
 import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
+import { useNavigate } from 'react-router-dom';
+import { MAIN_ROUTE } from '../utils/consts';
 
 const CreateAd = observer(() => {
     const { newAd, user } = useContext(Context);
     const [description, setDescription] = useState('');
     const [yearOfManufacture, setYearOfManufacture] = useState('');
-    const [mileage, setMileage] = useState(0);
-    const [price, setPrice] = useState(0);
+    const [mileage, setMileage] = useState('');
+    const [price, setPrice] = useState('');
     const [files, setFiles] = useState([]);
-    const [mainPhotoIndex, setMainPhotoIndex] = useState(null); // Індекс головного фото
+    const [mainPhotoIndex, setMainPhotoIndex] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchCars().then(data => newAd.setCars(data));
@@ -27,7 +31,7 @@ const CreateAd = observer(() => {
     const selectFiles = e => {
         const selectedFiles = [...e.target.files];
         setFiles(selectedFiles);
-        setMainPhotoIndex(null); // Скидаємо індекс головного фото при виборі нових файлів
+        setMainPhotoIndex(null);
     };
 
     const handleMainPhotoChange = index => {
@@ -103,13 +107,21 @@ const CreateAd = observer(() => {
                 formData.append('photos', file);
             });
 
-            createNewAd(formData).then(data => alert(`Оголошення про продаж ${newAd.selectedMake} ${newAd.selectedModel} створено`));
+            createNewAd(formData).then(data => alert(`Оголошення про продаж авто створено`));
             setDescription('');
             setYearOfManufacture('');
-            setMileage(0);
-            setPrice(0);
+            setMileage('');
+            setPrice('');
             setFiles([]);
             setMainPhotoIndex(null);
+            newAd.setSelectedMake(null);
+            newAd.setSelectedModel(null);
+            newAd.setSelectedGeneration(null)
+            newAd.setSelectedPaintCondition(null);
+            newAd.setSelectedColor(null);
+            newAd.setSelectedAccident(null);
+            newAd.setSelectedDrivenFrom(null);
+            navigate(MAIN_ROUTE);  
         } catch (e) {
             alert(e);
         }           

@@ -41,6 +41,31 @@ class UserController {
         const token = generateJwt(req.consumer.id, req.consumer.first_name, req.consumer.last_name, req.consumer.patronymic, req.consumer.email, req.consumer.phone_number, req.consumer.role)
         return res.json({token})
     }
+
+    async getUser(req, res, next) {
+        const { id } = req.consumer;
+        const consumer = await Consumer.findOne({ where: { id } });
+        if (!consumer) {
+            return next(ApiError.internal('Користувача не знайдено'));
+        }
+        return res.json(consumer);
+    }    
+
+    async update(req, res, next) {
+        const { id } = req.consumer;
+        const { first_name, last_name, patronymic, email, phone_number, password } = req.body;
+        if (!first_name || !last_name || !patronymic || !email || !phone_number || !password) {
+            return next(ApiError.badRequest('Заповніть поля'));
+        }
+        const hashPassword = await bcrypt.hash(password, 5);
+        await Consumer.update(
+            { first_name, last_name, patronymic, email, phone_number, password: hashPassword },
+            { where: { id } }
+        );
+        const consumer = await Consumer.findOne({ where: { id } });
+        const token = generateJwt(consumer.id, consumer.first_name, consumer.last_name, consumer.patronymic, consumer.email, consumer.phone_number, consumer.role);
+        return res.json({ token });
+    }
 }
 
 module.exports = new UserController()

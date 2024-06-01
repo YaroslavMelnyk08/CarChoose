@@ -6,7 +6,8 @@ import Main from "./pages/Main";
 import CreateAd from "./pages/CreateAd";
 import UserAds from "./pages/UserAds";
 import EditAd from "./pages/EditAd";
-import { AD_ROUTE, CREATE_AD_ROUTE, CREATE_CAR_ROUTE, ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE, USER_ADS } from "./utils/consts";
+import { AD_ROUTE, CREATE_AD_ROUTE, CREATE_CAR_ROUTE, ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE, USER_ADS, EDIT_PROFILE } from "./utils/consts";
+import EditProfile from "./pages/EditProfile";
 
 export const authRoutes = [
     {
@@ -28,6 +29,10 @@ export const authRoutes = [
     {
         path: CREATE_AD_ROUTE + '/:id',
         Component: EditAd
+    },
+    {
+        path: EDIT_PROFILE,
+        Component: EditProfile
     }
 ];
 
