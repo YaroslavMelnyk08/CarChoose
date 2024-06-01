@@ -56,3 +56,8 @@ export const updateAd = async (id, ad) => {
     const { data } = await $authHost.put(`api/ad/${id}`, ad);
     return data;
 };
+
+export const deleteAd = async (id) => {
+    const { data } = await $authHost.delete(`api/ad/${id}`);
+    return data;
+};

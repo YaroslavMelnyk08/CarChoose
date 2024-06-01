@@ -8,5 +8,6 @@ router.get('/', adController.getAll)
 router.get('/:id', adController.getOne)
 router.get('/consumer/:id', adController.getAdsByConsumer);
 router.put('/:id', adController.update);
+router.delete('/:id', authMiddleware, adController.delete); 
 
 module.exports = router

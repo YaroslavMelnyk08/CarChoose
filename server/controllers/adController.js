@@ -108,6 +108,21 @@ class AdController {
             next(ApiError.badRequest(e.message));
         }
     }
+
+    async delete(req, res, next) {
+        try {
+            const { id } = req.params;
+            const deletedAd = await Ad.destroy({ where: { id } });
+            
+            if (!deletedAd) {
+                return res.status(404).json({ error: `Ad with id ${id} not found` });
+            }
+    
+            return res.json({ message: 'Ad deleted successfully' });
+        } catch (error) {
+            next(ApiError.badRequest(error.message));
+        }
+    }    
 }
 
 module.exports = new AdController();

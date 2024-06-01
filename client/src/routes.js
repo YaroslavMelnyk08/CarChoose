@@ -26,7 +26,7 @@ export const authRoutes = [
         Component: UserAds
     },
     {
-        path: CREATE_AD_ROUTE + '/:id', // Змінив шлях на CREATE_AD_ROUTE
+        path: CREATE_AD_ROUTE + '/:id',
         Component: EditAd
     }
 ];
