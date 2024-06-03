@@ -35,7 +35,7 @@ export const createNewAd = async (ad) => {
     return data
 }
 
-export const fetchAds = async (make, model, PaintConditionId, ColorId, AccidentId, DrivenFromId, page, limit = 5) => {
+export const fetchAds = async (make, model, PaintConditionId, ColorId, AccidentId, DrivenFromId, page, limit = 10) => {
     const {data} = await $host.get('api/ad', {params: {
         make, model, PaintConditionId, ColorId, AccidentId, DrivenFromId, page, limit
     }})

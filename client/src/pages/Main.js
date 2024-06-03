@@ -18,7 +18,7 @@ const Main = observer(() => {
         fetchColors().then(data => ad.setColors(data));
         fetchAccidents().then(data => ad.setAccidents(data));
         fetchDrivenFrom().then(data => ad.setDrivenFrom(data));
-        fetchAds(null, null, null, null, null, 1, 3).then(data => {
+        fetchAds(null, null, null, null, null, 1, 10).then(data => {
             ad.setAds(data.rows);
             ad.setTotalCount(data.count);
         }).catch(error => {
@@ -27,7 +27,7 @@ const Main = observer(() => {
     }, [ad]);
 
     useEffect(() => {
-        fetchAds(ad.selectedMake, ad.selectedModel, ad.selectedPaintCondition?.id, ad.selectedColor?.id, ad.selectedAccident?.id, ad.selectedDrivenFrom?.id, ad.page, 4).then(data => {
+        fetchAds(ad.selectedMake, ad.selectedModel, ad.selectedPaintCondition?.id, ad.selectedColor?.id, ad.selectedAccident?.id, ad.selectedDrivenFrom?.id, ad.page, 10).then(data => {
             ad.setAds(data.rows);
             ad.setTotalCount(data.count);
         }).catch(error => {
