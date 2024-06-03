@@ -50,7 +50,7 @@ const EditProfile = observer(() => {
     }
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: window.innerHeight - 54 }}>
+        <Container className="d-flex justify-content-center align-items-center">
             <Card style={{ width: 600 }} className="p-5">
                 <h2 className="m-auto">Оновлення профілю</h2>
                 <Form className="d-flex flex-column">

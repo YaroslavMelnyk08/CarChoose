@@ -71,6 +71,12 @@ const AdPhoto = sequelize.define('AdPhoto', {
   AdId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'Ads', key: 'id' } }
 }, { timestamps: false });
 
+const Favorite = sequelize.define('Favorite', {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+  ConsumerId: {type: DataTypes.INTEGER, allowNull: false},
+  AdId: {type: DataTypes.INTEGER, allowNull: false}
+}, { timestamps: false });
+
 Consumer.hasMany(Ad);
 Ad.belongsTo(Consumer);
 
@@ -92,4 +98,10 @@ Ad.belongsTo(DrivenFrom);
 Ad.hasMany(AdPhoto, { foreignKey: 'AdId', onDelete: 'CASCADE' });
 AdPhoto.belongsTo(Ad, { foreignKey: 'AdId' });
 
-module.exports = {Consumer, PaintCondition, Car, Color, Accident, DrivenFrom, Ad, AdPhoto};
+Consumer.hasMany(Favorite);
+Favorite.belongsTo(Consumer);
+
+Ad.hasMany(Favorite);
+Favorite.belongsTo(Ad);
+
+module.exports = {Consumer, PaintCondition, Car, Color, Accident, DrivenFrom, Ad, AdPhoto, Favorite};

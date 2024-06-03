@@ -11,17 +11,21 @@
     object-fit: fill;
 }
 
-.heart-icon {
-    font-size: 1.5rem;
-    color: red;
-    cursor: pointer;
-}
-
-.heart-icon:hover {
-    color: darkred;
-}
-
 .itemCard {
     padding: 2%;
     border: 2px solid #658fd7;
+}
+
+.heartBtn {
+    border: none;
+    background-color: transparent;
+}
+
+.heartBtn svg {
+    width: 32px;
+    height: 32px;
+}
+
+.card-title {
+    margin-bottom: 0;
 }

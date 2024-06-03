@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -7,16 +7,44 @@ import { useParams } from 'react-router-dom';
 import { fetchOneAd } from '../http/adAPI';
 import '../styles/AdStyles.css';
 import Carousel from 'react-bootstrap/Carousel';
+import { fetchFavoritesByConsumer, addFavorite, removeFavorite } from '../http/favoriteAPI';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { Context } from '..';
 
 const AdPage = () => {
     const [ad, setAd] = useState({ AdPhotos: [] });
     const { id } = useParams();
+    const { user } = useContext(Context);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favoriteId, setFavoriteId] = useState(null);
 
     useEffect(() => {
+        fetchFavoritesByConsumer(user.user.id).then(data => {
+            const favorite = data.find(fav => fav.AdId === ad.id);
+            if (favorite) {
+                setIsFavorite(true);
+                setFavoriteId(favorite.id);
+            }
+        });
         fetchOneAd(id).then(data => {
             setAd(data);
         });
-    }, [id]);
+    }, [ad.id, user.user.id, id]);
+
+    const handleFavoriteToggle = (e) => {
+        e.stopPropagation();
+        if (isFavorite) {
+            removeFavorite(favoriteId).then(() => {
+                setIsFavorite(false);
+                setFavoriteId(null);
+            });
+        } else {
+            addFavorite({ ConsumerId: user.user.id, AdId: ad.id }).then(favorite => {
+                setIsFavorite(true);
+                setFavoriteId(favorite.id);
+            });
+        }
+    };
 
     if (!ad) {
         return <div>Оголошення не знайдено</div>;
@@ -26,10 +54,18 @@ const AdPage = () => {
         <Container className='Container'>
             <Row className='titleAdContainer'>
                 {ad.Car && (
-                    <>
-                        <h1 className='titleAd'>{ad.title} {ad.year_of_manufacture}</h1>
-                        <strong style={{fontSize: '140%', padding: '0'}}>Покоління: {ad.Car.generation} 🚘 {ad.Car.trim}</strong>
-                    </>
+                    <div className='titleBlock'>
+                        <div>
+                            <h1 className='titleAd'>{ad.title} {ad.year_of_manufacture}</h1>
+                            <strong style={{fontSize: '140%', padding: '0'}}>Покоління: {ad.Car.generation} 🚘 {ad.Car.trim}</strong>
+                        </div>
+                        <div className='subTitleBlock'>
+                            <button onClick={handleFavoriteToggle} className='heartBtnPage'>
+                                {isFavorite ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
+                            </button>
+                        </div>
+                        
+                    </div>
                 )}
             </Row>
             <Row className='mt-4'>

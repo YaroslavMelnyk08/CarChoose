@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { MAIN_ROUTE } from '../utils/consts';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../styles/NavBar.css'
 import '../styles/App.css'

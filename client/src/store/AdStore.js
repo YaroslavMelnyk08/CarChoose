@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { addFavorite, removeFavorite, fetchFavoritesByConsumer } from "../http/favoriteAPI";
 
 export default class AdStore {
     constructor() {
@@ -91,6 +92,10 @@ export default class AdStore {
         this._selectedCar = car;
     }
 
+    setFavorites(favorites) {
+        this._favorites = favorites;
+    }
+
     get page() {
         return this._page
     }
@@ -159,17 +164,34 @@ export default class AdStore {
         return this._cars.filter(car => car.make === this._selectedMake);
     }
 
-    // favourites
-    addToFavorites(ad) {
-        this._favorites.push(ad);
+    get favorites() {
+        return this._favorites;
     }
 
-    removeFromFavorites(adId) {
-        this._favorites = this._favorites.filter(ad => ad.id !== adId);
+    async addFavorite(ad) {
+        try {
+            const favorite = await addFavorite(ad);
+            this._favorites.push(favorite);
+        } catch (e) {
+            console.error("Failed to add favorite:", e);
+        }
     }
 
-    isFavorite(adId) {
-        return this._favorites.some(ad => ad.id === adId);
+    async removeFavorite(id) {
+        try {
+            await removeFavorite(id);
+            this._favorites = this._favorites.filter(fav => fav.id !== id);
+        } catch (e) {
+            console.error("Failed to remove favorite:", e);
+        }
     }
 
+    async fetchFavoritesByConsumer(consumerId) {
+        try {
+            const favorites = await fetchFavoritesByConsumer(consumerId);
+            this.setFavorites(favorites);
+        } catch (e) {
+            console.error("Failed to fetch favorites:", e);
+        }
+    }
 }

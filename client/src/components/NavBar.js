@@ -3,7 +3,7 @@ import { Context } from '..';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, CREATE_AD_ROUTE, CREATE_CAR_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, CREATE_AD_ROUTE, CREATE_CAR_ROUTE, FAVORITES } from '../utils/consts';
 import { useNavigate, NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { observer } from "mobx-react-lite";
@@ -35,7 +35,7 @@ const NavBar = observer(() => {
                             :
                             <div>
                                 <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Додати оголошення</Button>
-                                <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Обране</Button>
+                                <Button className='NavButton' onClick={() => navigate(FAVORITES)}>Обране</Button>
                                 <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
                             </div>
                         }

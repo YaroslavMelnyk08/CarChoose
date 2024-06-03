@@ -18,7 +18,7 @@ const Admin = ({ userId }) => {
                 Додати оголошення
             </Button>
             <h4 className='mt-3 mb-2'>Переглянути власні оголошення</h4>
-            <Button onClick={() => navigate(`${USER_ADS}/${userId}`)}>
+            <Button style={{marginBottom: 244}} onClick={() => navigate(`${USER_ADS}/${userId}`)}>
                 Переглянути власні оголошення
             </Button>
         </Container>

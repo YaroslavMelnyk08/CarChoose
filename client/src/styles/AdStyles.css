@@ -16,6 +16,26 @@
 
 .ad-image {
     max-height: 500px;
-    object-fit: cover; /* Зображення обрізається по краях, якщо воно не пропорційне контейнеру */
-    object-position: center; /* Центрування зображення у контейнері */
+    object-fit: cover;
+    object-position: center;
+}
+
+.titleBlock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subTitleBlock {
+    display: flex;
+    align-items: center;
+}
+
+.heartBtnPage {
+    border: none;
+    background-color: transparent;
+}
+
+.heartBtnPage svg {
+    width: 42px;
+    height: 42px;
 }
