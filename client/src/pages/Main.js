@@ -33,7 +33,7 @@ const Main = observer(() => {
         }).catch(error => {
             console.error("Error fetching ads on filter change:", error.message);
         });
-    }, [ad.selectedMake, ad.selectedModel, ad.selectedPaintCondition, ad.selectedColor, ad.selectedAccident, ad.selectedDrivenFrom, ad.page]);
+    }, [ad.selectedMake, ad.selectedModel, ad.selectedPaintCondition, ad.selectedColor, ad.selectedAccident, ad.selectedDrivenFrom, ad.page, ad]);
 
     return (
         <Container className='Container'>
