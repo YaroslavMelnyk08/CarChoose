@@ -15,7 +15,7 @@ export default class UserStore {
     }
 
     setIsAdmin(bool) {
-        this._isAdmin = bool
+        this._isAdmin = bool;
     }
 
     setUser(user) {
@@ -31,7 +31,7 @@ export default class UserStore {
     }
 
     get isAdmin() {
-        return this._isAdmin
+        return this._isAdmin;
     }
 
     get user() {

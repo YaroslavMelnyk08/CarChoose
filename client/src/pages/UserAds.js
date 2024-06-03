@@ -44,7 +44,7 @@ const UserAds = observer(() => {
                     {ads.map(ad => (
                         <div key={ad.id} className='ad-item'>
                             <AdItem ad={ad} />
-                            <Button className='mt-1' onClick={() => navigate(`${CREATE_AD_ROUTE}/${ad.id}`)}>
+                            <Button className='mt-1 me-3' onClick={() => navigate(`${CREATE_AD_ROUTE}/${ad.id}`)}>
                                 Редагувати оголошення
                             </Button>
                             <Button variant="danger" className='mt-1' onClick={() => handleDeleteAd(ad.id)}>

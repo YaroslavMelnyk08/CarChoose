@@ -5,24 +5,46 @@ import NavBar from "./components/NavBar";
 import { observer } from "mobx-react-lite";
 import { Context } from ".";
 import { check } from "./http/userAPI";
-import {Spinner} from "react-bootstrap";
-import './styles/App.css'
+import { Spinner } from "react-bootstrap";
+import { jwtDecode } from 'jwt-decode'
+import './styles/App.css';
 import Footer from "./components/Footer";
- 
 
 const App = observer(() => {
-    const {user} = useContext(Context)
-    const [loading, setLoading] = useState(true)
+    const { user } = useContext(Context);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        check().then(data => {
-            user.setUser(true)
-            user.setIsAuth(true)
-        }).finally(() => setLoading(false))
-    }, [])
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedUser = jwtDecode(token);
+            user.setUser(decodedUser);
+            user.setIsAuth(true);
+            user.setUserId(decodedUser.id);
+            if (decodedUser.role === "ADMIN") {
+                user.setIsAdmin(true);
+            }
+        } else {
+            user.setIsAuth(false);
+        }
+        setLoading(false);
+    }, [user]);
 
-    if(loading) {
-        return <Spinner animation={'grow'}></Spinner>
+    useEffect(() => {
+        if (user.isAuth) {
+            check().then(data => {
+                user.setUser(data);
+                user.setIsAuth(true);
+                user.setUserId(data.id);
+            }).catch(() => {
+                user.setIsAuth(false);
+                localStorage.removeItem('token');
+            }).finally(() => setLoading(false));
+        }
+    }, [user]);
+
+    if (loading) {
+        return <Spinner animation={'grow'}></Spinner>;
     }
 
     return (

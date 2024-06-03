@@ -15,8 +15,10 @@ const NavBar = observer(() => {
     const navigate = useNavigate();
 
     const logOut = () => {
-        user.setUser({})
-        user.setIsAuth(false)
+        user.setUser({});
+        user.setIsAuth(false);
+        localStorage.removeItem('token');
+        navigate(MAIN_ROUTE);
     }
 
     return (
@@ -37,8 +39,7 @@ const NavBar = observer(() => {
                                 <Button className='NavButton' onClick={() => navigate(ADMIN_ROUTE)}>Обліковий запис</Button>
                             </div>
                         }
-                        <Button className='NavButton ms-2' onClick={() => logOut()}
-                        >Вийти</Button>
+                        <Button className='NavButton ms-2' onClick={() => logOut()}>Вийти</Button>
                     </Nav>
                     :
                     <Nav className="ml-auto">

@@ -38,8 +38,9 @@ class UserController {
     }
 
     async check(req, res, next) {
-        const token = generateJwt(req.consumer.id, req.consumer.first_name, req.consumer.last_name, req.consumer.patronymic, req.consumer.email, req.consumer.phone_number, req.consumer.role)
-        return res.json({token})
+        const token = generateJwt(req.consumer.id, req.consumer.first_name, req.consumer.last_name, req.consumer.patronymic, req.consumer.email, req.consumer.phone_number, req.consumer.role);
+        const consumer = await Consumer.findOne({ where: { id: req.consumer.id } });
+        return res.json({ token, ...consumer.dataValues });
     }
 
     async getUser(req, res, next) {

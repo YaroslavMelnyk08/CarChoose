@@ -12,44 +12,43 @@ import { Context } from '..';
 import '../styles/Auth.css'
 
 const Auth = observer(() => {
-    const {user} = useContext(Context)
-    const location = useLocation()
-    const navigate = useNavigate()
-    const isLogin = location.pathname === LOGIN_ROUTE
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [patronymic, setPatronymic] = useState('') 
-    const [email, setEmail] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const [password, setPassword] = useState('')
+    const { user } = useContext(Context);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const isLogin = location.pathname === LOGIN_ROUTE;
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [patronymic, setPatronymic] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [password, setPassword] = useState('');
 
     const click = async () => {
         try {
             let data;
             if (isLogin) {
-                data = await login(email, password)
+                data = await login(email, password);
             } else {
-                data = await registration(firstName, lastName, patronymic, email, phoneNumber, password)
+                data = await registration(firstName, lastName, patronymic, email, phoneNumber, password);
             }
-            user.setUser(data)
-            user.setIsAuth(true)
-            user.setUserId(data.id) 
-            console.log('User ID:', data.id);
-            if (data.role === "ADMIN"){
-                user.setIsAdmin(true)
+            user.setUser(data);
+            user.setIsAuth(true);
+            user.setUserId(data.id);
+            if (data.role === "ADMIN") {
+                user.setIsAdmin(true);
             }
-            navigate(MAIN_ROUTE)
+            navigate(MAIN_ROUTE);
         } catch (e) {
-            alert(e.response.data.message)
+            alert(e.response.data.message);
         }
     }
 
     return (
         <Container 
             className="d-flex justify-content-center align-items-center"
-            style={{height: window.innerHeight - 154}}
+            style={{ height: window.innerHeight - 154 }}
         >
-            <Card style={{width: 600}} className="authCard p-5">
+            <Card style={{ width: 600 }} className="authCard p-5">
                 <h2 className="m-auto">{isLogin ? "Авторизація" : "Реєстрація"}</h2>
                 <Form className="d-flex flex-column">
                     {isLogin ? 
