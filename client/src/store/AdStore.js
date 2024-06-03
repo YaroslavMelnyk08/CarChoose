@@ -96,6 +96,10 @@ export default class AdStore {
         this._favorites = favorites;
     }
 
+    clearFavorites() {
+        this._favorites = [];
+    }
+
     get page() {
         return this._page
     }

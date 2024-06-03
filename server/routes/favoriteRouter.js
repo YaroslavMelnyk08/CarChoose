@@ -3,8 +3,8 @@ const router = new Router();
 const favoriteController = require('../controllers/FavoriteController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-router.post('/', authMiddleware, favoriteController.addFavorite);
-router.delete('/:id', authMiddleware, favoriteController.removeFavorite);
-router.get('/:ConsumerId', authMiddleware, favoriteController.getFavoritesByConsumer);
+router.post('/', favoriteController.addFavorite);
+router.delete('/:id', favoriteController.removeFavorite);
+router.get('/:ConsumerId', favoriteController.getFavoritesByConsumer);
 
 module.exports = router;

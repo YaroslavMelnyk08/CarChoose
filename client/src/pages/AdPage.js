@@ -19,13 +19,15 @@ const AdPage = () => {
     const [favoriteId, setFavoriteId] = useState(null);
 
     useEffect(() => {
-        fetchFavoritesByConsumer(user.user.id).then(data => {
-            const favorite = data.find(fav => fav.AdId === ad.id);
-            if (favorite) {
-                setIsFavorite(true);
-                setFavoriteId(favorite.id);
-            }
-        });
+        if (user.user.id) {
+            fetchFavoritesByConsumer(user.user.id).then(data => {
+                const favorite = data.find(fav => fav.AdId === ad.id);
+                if (favorite) {
+                    setIsFavorite(true);
+                    setFavoriteId(favorite.id);
+                }
+            });
+        }
         fetchOneAd(id).then(data => {
             setAd(data);
         });
@@ -33,6 +35,10 @@ const AdPage = () => {
 
     const handleFavoriteToggle = (e) => {
         e.stopPropagation();
+        if (!user.isAuth) {
+            alert('Необхідно авторизуватися, щоб додавати до обраного.');
+            return;
+        }
         if (isFavorite) {
             removeFavorite(favoriteId).then(() => {
                 setIsFavorite(false);
@@ -57,14 +63,13 @@ const AdPage = () => {
                     <div className='titleBlock'>
                         <div>
                             <h1 className='titleAd'>{ad.title} {ad.year_of_manufacture}</h1>
-                            <strong style={{fontSize: '140%', padding: '0'}}>Покоління: {ad.Car.generation} 🚘 {ad.Car.trim}</strong>
+                            <strong style={{ fontSize: '140%', padding: '0' }}>Покоління: {ad.Car.generation} 🚘 {ad.Car.trim}</strong>
                         </div>
                         <div className='subTitleBlock'>
                             <button onClick={handleFavoriteToggle} className='heartBtnPage'>
                                 {isFavorite ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
                             </button>
                         </div>
-                        
                     </div>
                 )}
             </Row>
@@ -110,13 +115,13 @@ const AdPage = () => {
                                         <strong>Опис стану ЛФП:</strong> {ad.PaintCondition.paint_condition_description}
                                     </Card.Text>
                                     <Card.Text>
-                                       <strong>Колір:</strong> {ad.Color.color_name}
+                                        <strong>Колір:</strong> {ad.Color.color_name}
                                     </Card.Text>
                                     <Card.Text>
-                                       <strong>Колір:</strong> {ad.Accident.accident_name}
+                                        <strong>Колір:</strong> {ad.Accident.accident_name}
                                     </Card.Text>
                                     <Card.Text>
-                                       {ad.DrivenFrom.country_name === "Україна" ? <strong>Куплений в:</strong> : <strong>Пригнаний з:</strong>} {ad.DrivenFrom.country_name}
+                                        {ad.DrivenFrom.country_name === "Україна" ? <strong>Куплений в:</strong> : <strong>Пригнаний з:</strong>} {ad.DrivenFrom.country_name}
                                     </Card.Text>
                                 </>
                             )}
@@ -128,13 +133,13 @@ const AdPage = () => {
                             {ad.Car && (
                                 <>
                                     <Card.Text>
-                                       <strong>Двигун:</strong> {ad.Car.capacity_cm3} см³ 🚘 ({ad.Car.engine_hp} к.с) 🚘 {ad.Car.engine_type}
+                                        <strong>Двигун:</strong> {ad.Car.capacity_cm3} см³ 🚘 ({ad.Car.engine_hp} к.с) 🚘 {ad.Car.engine_type}
                                     </Card.Text>
                                     <Card.Text>
-                                       <strong>Коробка передач:</strong>  {ad.Car.transmission}
+                                        <strong>Коробка передач:</strong> {ad.Car.transmission}
                                     </Card.Text>
                                     <Card.Text>
-                                       <strong>Привід:</strong> {ad.Car.drive_wheels}
+                                        <strong>Привід:</strong> {ad.Car.drive_wheels}
                                     </Card.Text>
                                 </>
                             )}
@@ -147,7 +152,7 @@ const AdPage = () => {
                             {ad.AdPhotos.map((photo, index) => (
                                 <Carousel.Item key={index}>
                                     <img
-                                        style={{borderRadius: '3%'}}
+                                        style={{ borderRadius: '3%' }}
                                         className="d-block w-100 ad-image"
                                         src={`${process.env.REACT_APP_API_URL}/${photo.file_name}`}
                                         alt={`Фото ${index + 1}`}

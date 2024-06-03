@@ -16,18 +16,23 @@ const AdItem = ({ ad }) => {
     const [favoriteId, setFavoriteId] = useState(null);
 
     useEffect(() => {
-        fetchFavoritesByConsumer(user.user.id).then(data => {
-            const favorite = data.find(fav => fav.AdId === ad.id);
-            if (favorite) {
-                setIsFavorite(true);
-                setFavoriteId(favorite.id);
-            }
-        });
+        if (user.user.id) {
+            fetchFavoritesByConsumer(user.user.id).then(data => {
+                const favorite = data.find(fav => fav.AdId === ad.id);
+                if (favorite) {
+                    setIsFavorite(true);
+                    setFavoriteId(favorite.id);
+                }
+            });
+        }
     }, [ad.id, user.user.id]);
-
 
     const handleFavoriteToggle = (e) => {
         e.stopPropagation();
+        if (!user.isAuth) {
+            alert('Необхідно авторизуватися, щоб додавати до обраного.');
+            return;
+        }
         if (isFavorite) {
             removeFavorite(favoriteId).then(() => {
                 setIsFavorite(false);
