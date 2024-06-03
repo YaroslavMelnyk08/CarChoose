@@ -28,3 +28,8 @@ export const updateProfile = async (first_name, last_name, patronymic, email, ph
     const { data } = await $authHost.put('api/user/update', { first_name, last_name, patronymic, email, phone_number, password });
     return data;
 };
+
+export const deleteAd = async (id) => {
+    const { data } = await $authHost.delete('api/ad/' + id);
+    return data;
+};

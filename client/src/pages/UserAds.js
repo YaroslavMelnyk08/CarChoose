@@ -28,7 +28,8 @@ const UserAds = observer(() => {
             await deleteAd(id);
             const updatedAds = ads.filter(ad => ad.id !== id);
             setAds(updatedAds);
-            alert(`Оголошення про продаж "${adToDelete.title}" видалено`);
+            localStorage.setItem('deletedAdMessage', `Ваше оголошення "${adToDelete.title}" було видалено адміністратором.`);
+            window.location.reload(); // Reload the page to trigger the message display
         } catch (error) {
             console.error("Error deleting ad:", error.message);
         }

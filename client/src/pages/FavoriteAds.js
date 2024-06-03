@@ -20,11 +20,15 @@ const FavoriteAds = observer(() => {
     return (
         <Container className='Container'>
             <h2 className='mb-4'>Улюблені оголошення</h2>
-            <Row>
-                {ad.favorites.map(ad => (
-                    <AdItem key={ad.id} ad={ad.Ad} />
-                ))}
-            </Row>
+            {ad.favorites.length === 0 ? (
+                <div style={{marginBottom: 456}}><h4>Покищо тут немає оголошень</h4></div>
+            ) : (
+                <Row>
+                    {ad.favorites.map(ad => (
+                        <AdItem key={ad.id} ad={ad.Ad} />
+                    ))}
+                </Row>
+            )}
         </Container>
     );
 });

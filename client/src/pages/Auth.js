@@ -9,7 +9,7 @@ import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { login, registration } from '../http/userAPI';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
-import '../styles/Auth.css'
+import '../styles/Auth.css';
 
 const Auth = observer(() => {
     const { user } = useContext(Context);
@@ -38,6 +38,12 @@ const Auth = observer(() => {
                 user.setIsAdmin(true);
             }
             navigate(MAIN_ROUTE);
+
+            const deletedAdMessage = localStorage.getItem('deletedAdMessage');
+            if (deletedAdMessage) {
+                alert(deletedAdMessage);
+                localStorage.removeItem('deletedAdMessage');
+            }
         } catch (e) {
             alert(e.response.data.message);
         }

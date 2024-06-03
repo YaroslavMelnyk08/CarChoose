@@ -8,6 +8,8 @@ import '../styles/AdItem.css';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { Context } from '..';
 import { fetchFavoritesByConsumer, addFavorite, removeFavorite } from '../http/favoriteAPI';
+import Button from 'react-bootstrap/Button';
+import { deleteAd } from '../http/adAPI';
 
 const AdItem = ({ ad }) => {
     const navigate = useNavigate();
@@ -46,6 +48,20 @@ const AdItem = ({ ad }) => {
         }
     };
 
+    const handleDeleteAd = async (e) => {
+        e.stopPropagation();
+        if (window.confirm(`Ви впевнені, що хочете видалити оголошення "${ad.title}"?`)) {
+            try {
+                await deleteAd(ad.id);
+                alert(`Оголошення "${ad.title}" було видалено.`);
+                const deletedAdMessage = `Оголошення про продаж "${ad.title}" видалено`;
+                localStorage.setItem('deletedAdMessage', JSON.stringify({ message: deletedAdMessage, userId: user.user.id }));
+            } catch (error) {
+                console.error("Error deleting ad:", error.message);
+            }
+        }
+    };
+
     const mainPhoto = ad.AdPhotos && ad.AdPhotos.length > 0 
         ? `${process.env.REACT_APP_API_URL}/${ad.AdPhotos[0].file_name}`
         : `${process.env.REACT_APP_API_URL}noPhoto.jpg`
@@ -68,6 +84,15 @@ const AdItem = ({ ad }) => {
                             <button onClick={handleFavoriteToggle} className='heartBtn'>
                                 {isFavorite ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
                             </button>
+                            {user.isAdmin && (
+                                <Button 
+                                    variant="danger" 
+                                    className="ms-2" 
+                                    onClick={handleDeleteAd}
+                                >
+                                    Видалити
+                                </Button>
+                            )}
                         </div>
                     </div>
                     <Card.Text className='mt-2'>
