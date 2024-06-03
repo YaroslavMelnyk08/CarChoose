@@ -33,7 +33,6 @@ const NavBar = observer(() => {
                             <div>
                                 <Button className='NavButton' onClick={() => navigate(FAVORITES)}>Обране</Button>
                                 <Button className='NavButton' onClick={() => navigate(CREATE_CAR_ROUTE)}>Додати авто</Button>
-                                <Button className='NavButton' onClick={() => navigate(CREATE_AD_ROUTE)}>Додати оголошення</Button>
                             </div>
                         ) : (
                             <div>

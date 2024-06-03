@@ -55,7 +55,7 @@ const AdItem = ({ ad }) => {
                 await deleteAd(ad.id);
                 alert(`Оголошення "${ad.title}" було видалено.`);
                 const deletedAdMessage = `Оголошення про продаж "${ad.title}" видалено`;
-                localStorage.setItem('deletedAdMessage', JSON.stringify({ message: deletedAdMessage, userId: user.user.id }));
+                localStorage.setItem(JSON.stringify({ deletedAdMessage }));
             } catch (error) {
                 console.error("Error deleting ad:", error.message);
             }

@@ -36,7 +36,7 @@ class AdController {
         let { make, model, PaintConditionId, ColorId, AccidentId, DrivenFromId, limit, page } = req.query;
 
         page = page || 1;
-        limit = limit || 2;
+        limit = limit || 10;
         let offset = page * limit - limit;
 
         let whereClause = {};
