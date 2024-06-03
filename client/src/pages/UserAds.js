@@ -12,7 +12,7 @@ import '../styles/UserAds.css';
 const UserAds = observer(() => {
     const [ads, setAds] = useState([]);
     const navigate = useNavigate();
-    const { ad, user } = useContext(Context);
+    const { user } = useContext(Context);
 
     useEffect(() => {
         fetchAdsByConsumer(user.userId)

@@ -26,7 +26,7 @@ const CreateAd = observer(() => {
         fetchColors().then(data => newAd.setColors(data));
         fetchAccidents().then(data => newAd.setAccidents(data));
         fetchDrivenFrom().then(data => newAd.setDrivenFrom(data));
-    }, []);
+    }, [newAd]);
 
     const selectFiles = e => {
         const selectedFiles = [...e.target.files];
