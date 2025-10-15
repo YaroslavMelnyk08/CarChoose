@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CarChoose
 
 CarChoose is a web application designed to help users select and manage car advertisements. It provides features for filtering, creating, and managing car ads, as well as user authentication and profile management.
@@ -116,6 +115,3 @@ The `сar-database.csv` file includes the following columns:
 | `transmission`     | Type of transmission (e.g., manual, automatic) |
 
 This data can be used to populate the database and provide a comprehensive dataset for the application.
-=======
-Read.me
->>>>>>> 0188b63642f2cf50fc58eabd6f269b964351db4b
