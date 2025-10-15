@@ -1,0 +1,1 @@
+copy car FROM 'D:\OneDrive\сar-database.csv' DELIMITER ',' CSV HEADER;

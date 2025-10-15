@@ -129,6 +129,7 @@ const CreateAd = observer(() => {
 
     return (
         <Container className='Container'>
+            <h2 className='mb-3'>Створити оголошення</h2>
             <Form>
                 <h4>Марки Авто</h4>
                 <Dropdown className='mt-2 dropDown'>
